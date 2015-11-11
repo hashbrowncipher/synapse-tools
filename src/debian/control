@@ -1,0 +1,9 @@
+Source: synapse-tools
+Maintainer: John Billings <billings@yelp.com>
+Build-Depends:
+    dh-virtualenv,
+
+Depends: python2.7
+Package: synapse-tools
+Architecture: any
+Description: Synapse-related tools for use on Yelp machines.

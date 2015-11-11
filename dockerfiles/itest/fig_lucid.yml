@@ -1,0 +1,26 @@
+itest:
+  build: dockerfiles/itest/itest_lucid
+  hostname: itesthost.itestdomain
+  volumes:
+   - .:/work
+  links:
+   - servicetwo
+   - servicethree
+   - servicethreechaos
+   - serviceone
+   - zookeeper
+
+servicethree:
+  build: dockerfiles/itest/service_three
+
+serviceone:
+  build: dockerfiles/itest/service_one
+
+zookeeper:
+  build: dockerfiles/itest/zookeeper
+
+servicethreechaos:
+  build: dockerfiles/itest/service_three
+
+servicetwo:
+  build: dockerfiles/itest/service_two

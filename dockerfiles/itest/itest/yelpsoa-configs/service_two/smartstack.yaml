@@ -1,0 +1,13 @@
+---
+main:
+  proxy_port: 20090
+  retries: 2
+  timeout_connect_ms: 10000
+  timeout_server_ms:  11000
+  healthcheck_uri: /lil_brudder
+  allredisp: False
+  discover: habitat
+  extra_headers:
+    X-Mode: ro
+  extra_healthcheck_headers:
+    X-Mode: ro

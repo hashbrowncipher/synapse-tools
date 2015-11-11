@@ -1,0 +1,5 @@
+{
+  "config_file": "/etc/synapse/synapse.conf.json",
+  "bind_addr": "0.0.0.0",
+  "haproxy.defaults.inter": "10s"
+}

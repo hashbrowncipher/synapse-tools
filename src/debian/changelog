@@ -1,0 +1,340 @@
+synapse-tools (0.8.15) lucid; urgency=low
+
+  * Sleep a little at the end of a restart before unplugging
+    See OPS-8144
+
+ -- Joseph Lynch <jlynch@yelp.com>  Tue, 06 Oct 2015 13:20:08 -0700
+
+synapse-tools (0.8.14) lucid; urgency=low
+
+  * output via logging, goes to stderr so that it can show up in synapse.log
+
+ -- Benjamin Chess <bchess@yelp.com>  Fri, 18 Sep 2015 13:42:32 -0700
+
+synapse-tools (0.8.13) lucid; urgency=low
+
+  * Ensure extra_headers are only added to backend
+
+ -- Robert Johnson <robj@yelp.com>  Tue, 08 Sep 2015 06:06:19 -0700
+
+synapse-tools (0.8.12) lucid; urgency=low
+
+  * Add support for extra_healthcheck_headers and extra_headers
+
+ -- Robert Johnson <robj@yelp.com>  Tue, 2 Sep 2015 08:17:00 -0700
+
+synapse-tools (0.8.11) lucid; urgency=low
+
+  * Bump environment_tools to the latest version 
+
+ -- Matt Carroll <mattc@yelp.com>  Tue, 1 Sep 2015 11:19:00 -0700
+
+synapse-tools (0.8.10) lucid; urgency=low
+
+  * Bump environment_tools to the latest version 
+
+ -- Tomas Doran <tdoran@yelp.com>  Thu, 20 Aug 2015 08:12:16 -0700
+
+synapse-tools (0.8.9) lucid; urgency=low
+
+  * Fixing the build and bumping paasta_tools to 0.12.39
+
+ -- Joseph Lynch <jlynch@yelp.com>  Wed, 29 Jul 2015 15:33:46 -0700
+
+synapse-tools (0.8.8) lucid; urgency=low
+
+  * Bump paasta_tools to 0.11.20
+
+ -- Keshav Varma <keshav@yelp.com>  Tue, 23 Jun 2015 15:37:38 -0700
+
+synapse-tools (0.8.7) lucid; urgency=low
+
+  * Reduce synapse state file TTL value.  Refs SRV-1804.
+
+ -- John Billings <billings@yelp.com>  Fri, 05 Jun 2015 14:54:18 -0700
+
+synapse-tools (0.8.6) lucid; urgency=low
+
+  * Make reaper limit number of haproxy instances.
+
+ -- John Billings <billings@yelp.com>  Thu, 04 Jun 2015 11:50:37 -0700
+
+synapse-tools (0.8.5) lucid; urgency=low
+
+  * Enable state file.
+
+ -- John Billings <billings@yelp.com>  Fri, 29 May 2015 14:56:28 -0700
+
+synapse-tools (0.8.4) lucid; urgency=low
+
+  * Bump version number.
+
+ -- John Billings <billings@yelp.com>  Wed, 27 May 2015 14:44:01 -0700
+
+synapse-tools (0.8.3) lucid; urgency=low
+
+  * Add restart_interval option.
+
+ -- John Billings <billings@yelp.com>  Wed, 27 May 2015 13:52:19 -0700
+
+synapse-tools (0.8.2) lucid; urgency=low
+
+  * Fix the build.
+
+ -- John Billings <billings@yelp.com>  Fri, 15 May 2015 13:49:05 -0700
+
+synapse-tools (0.8.1) lucid; urgency=low
+
+  * Don't set zipkin headers.
+
+ -- Cameron Paul <cpaul@yelp.com>  Thu, 14 May 2015 13:24:16 -0700
+
+synapse-tools (0.8.0) lucid; urgency=low
+
+  * Read from infrastructure ZKs.  Refs SRV-1560.
+
+ -- John Billings <billings@yelp.com>  Fri, 17 Apr 2015 09:53:49 -0700
+
+synapse-tools (0.7.0) lucid; urgency=low
+
+  * chaos (cep398) features
+
+ -- Benjamin Chess <bchess@yelp.com>  Tue, 14 Apr 2015 07:08:22 -0700
+
+synapse-tools (0.6.9) lucid; urgency=low
+
+  * Make allredisp: False actually mean false
+
+ -- Joseph Lynch <jlynch@yelp.com>  Thu, 26 Mar 2015 16:07:40 -0700
+
+synapse-tools (0.6.8) lucid; urgency=low
+
+  * Allow the allredisp haproxy option to be written out
+  * Fix a bug in the way configure_nerve read config
+
+ -- Joseph Lynch <jlynch@yelp.com>  Fri, 20 Mar 2015 17:17:11 -0700
+
+synapse-tools (0.6.7) lucid; urgency=low
+
+  * Use the config file /etc/synapse/synapse-tools.conf.json
+    which we write out to derive the address to bind haproxy to
+
+ -- Tomas Doran <tdoran@yelp.com>  Fri, 20 Mar 2015 06:32:27 -0700
+
+synapse-tools (0.6.6) lucid; urgency=low
+
+  * Tell synapse to generate a file output of registrations
+
+ -- Joseph Lynch <jlynch@yelp.com>  Mon, 09 Mar 2015 15:48:09 -0700
+
+synapse-tools (0.6.5) lucid; urgency=low
+
+  * Make client/server timeouts the same if only one is specified.
+
+ -- Joseph Lynch <jlynch@yelp.com>  Fri, 20 Feb 2015 17:34:56 -0800
+
+synapse-tools (0.6.4) lucid; urgency=low
+
+  * Don't explicitly passing X-B3-Flags and X-B3-Sampled headers.
+
+ -- Leonid Movsesyan <leonid@yelp.com>  Tue, 03 Feb 2015 11:48:09 -0800
+
+synapse-tools (0.6.3) lucid; urgency=low
+
+  * Fix permission dropping
+
+ -- Joseph Lynch <jlynch@yelp.com>  Wed, 28 Jan 2015 18:19:43 -0800
+
+synapse-tools (0.6.2) lucid; urgency=low
+
+  * Change HAProxy to use a (potentially) protected restart
+    On older kernels this will just execute the command
+
+ -- Joseph Lynch <jlynch@yelp.com>  Wed, 28 Jan 2015 16:27:12 -0800
+
+synapse-tools (0.6.1) lucid; urgency=low
+
+  * Deal with older kernels by substituting a pfifo in for a plug
+
+ -- Joseph Lynch <jlynch@yelp.com>  Wed, 28 Jan 2015 16:17:41 -0800
+
+synapse-tools (0.6.0) lucid; urgency=low
+
+  * Add synapse_qdisc_tool, see SRV-1480
+
+ -- Joseph Lynch <jlynch@yelp.com>  Tue, 27 Jan 2015 13:51:22 -0800
+
+synapse-tools (0.5.12) lucid; urgency=low
+
+  * Log normal messages for Zipkin support and passing all X-B3 flags.
+
+ -- Leonid Movsesyan <leonid@yelp.com>  Mon, 26 Jan 2015 11:38:10 -0800
+
+synapse-tools (0.5.11) lucid; urgency=low
+
+  * Add hacheck support.  Refs SRV-1484.
+
+ -- Kyle Anderson <kwa@yelp.com>  Thu, 22 Jan 2015 14:40:06 -0800
+
+synapse-tools (0.5.10) lucid; urgency=low
+
+  * Switch to python 2.7 and use paasta_tools
+
+ -- Kyle Anderson <kwa@yelp.com>  Mon, 12 Jan 2015 17:39:45 -0800
+
+synapse-tools (0.5.9) lucid; urgency=low
+
+  * Added Zipkin support.
+
+ -- Leonid Movsesyan <leonid@yelp.com>  Tue, 06 Jan 2015 14:34:48 -0800
+
+synapse-tools (0.5.8) lucid; urgency=low
+
+  * Store reaper state in /var/run/synapse_alumni.
+
+ -- John Billings <billings@yelp.com>  Fri, 19 Dec 2014 16:04:51 -0800
+
+synapse-tools (0.5.7) lucid; urgency=low
+
+  * Fix bug in haproxy_synapse_reaper script.  Refs SRV-1404.
+
+ -- John Billings <billings@yelp.com>  Fri, 19 Dec 2014 10:32:22 -0800
+
+synapse-tools (0.5.6) lucid; urgency=low
+
+  * Add haproxy_synapse_reaper script.  Refs SRV-1404.
+
+ -- John Billings <billings@yelp.com>  Fri, 12 Dec 2014 11:52:50 -0800
+
+synapse-tools (0.5.5) lucid; urgency=low
+
+  * Removed Zipkin support because log-format affects on errors as well
+    as on normal log messages.
+
+ -- Leonid Movsesyan <leonid@yelp.com>  Tue, 09 Dec 2014 17:08:43 -0800
+
+synapse-tools (0.5.4) lucid; urgency=low
+
+  * Use infrastructure zookeepers for synapse.  Refs SRV-2020.
+
+ -- John Billings <billings@yelp.com>  Tue, 09 Dec 2014 10:06:28 -0800
+
+synapse-tools (0.5.3) lucid; urgency=low
+
+  * Don't use previous backends.  Refs SRV-1190.
+
+ -- John Billings <billings@yelp.com>  Mon, 27 Oct 2014 16:32:09 -0700
+
+synapse-tools (0.5.2) lucid; urgency=low
+
+  * Fixed logging format for Zipkin spans.
+
+ -- Leonid Movsesyan <leonid@yelp.com>  Thu, 23 Oct 2014 16:43:48 -0700
+
+synapse-tools (0.5.1) lucid; urgency=low
+
+  * Generation Zipkin compatible HAProxy config.
+
+ -- Leonid Movsesyan <leonid@yelp.com>  Tue, 07 Oct 2014 18:00:42 -0700
+
+synapse-tools (0.5.0) lucid; urgency=low
+
+  * Decrease healthcheck rate.
+
+ -- John Billings <billings@yelp.com>  Tue, 26 Aug 2014 13:09:56 -0700
+
+synapse-tools (0.4.4) lucid; urgency=low
+
+  * Log connection errors at "error" severity.
+
+ -- John Billings <billings@yelp.com>  Thu, 21 Aug 2014 17:10:13 -0700
+
+synapse-tools (0.4.3) lucid; urgency=low
+
+  * Send logging output to syslog2scribe.
+
+ -- John Billings <billings@yelp.com>  Thu, 21 Aug 2014 16:34:04 -0700
+
+synapse-tools (0.4.2) lucid; urgency=low
+
+  * Fix logging, for real.
+
+ -- John Billings <billings@yelp.com>  Fri, 15 Aug 2014 17:22:49 -0700
+
+synapse-tools (0.4.1) lucid; urgency=low
+
+  * Fix logging.
+
+ -- John Billings <billings@yelp.com>  Fri, 15 Aug 2014 17:06:27 -0700
+
+synapse-tools (0.4.0) lucid; urgency=low
+
+  * Log service errors.
+
+ -- John Billings <billings@yelp.com>  Fri, 15 Aug 2014 14:22:05 -0700
+
+synapse-tools (0.3.0) lucid; urgency=low
+
+  * Support timeout_client_ms option.
+
+ -- John Billings <billings@yelp.com>  Thu, 14 Aug 2014 15:52:42 -0700
+
+synapse-tools (0.2.0) lucid; urgency=low
+
+  * Add TCP mode.
+
+ -- John Billings <billings@yelp.com>  Fri, 08 Aug 2014 18:54:42 -0700
+
+synapse-tools (0.1.7) lucid; urgency=low
+
+  * Cleanup tests.
+
+ -- John Billings <billings@yelp.com>  Thu, 07 Aug 2014 17:13:19 -0700
+
+synapse-tools (0.1.6) lucid; urgency=low
+
+  * Test fix, attempt 6.
+
+ -- John Billings <billings@yelp.com>  Thu, 07 Aug 2014 11:54:12 -0700
+
+synapse-tools (0.1.5) lucid; urgency=low
+
+  * Test fix, attempt 5.
+
+ -- John Billings <billings@yelp.com>  Thu, 07 Aug 2014 10:45:12 -0700
+
+synapse-tools (0.1.4) lucid; urgency=low
+
+  * Test fix, attempt 4.
+
+ -- John Billings <billings@yelp.com>  Thu, 07 Aug 2014 10:41:08 -0700
+
+synapse-tools (0.1.3) lucid; urgency=low
+
+  * Test fix, attempt 3.
+
+ -- John Billings <billings@yelp.com>  Thu, 07 Aug 2014 10:17:39 -0700
+
+synapse-tools (0.1.2) lucid; urgency=low
+
+  * Test fix, attempt 2.
+
+ -- John Billings <billings@yelp.com>  Wed, 06 Aug 2014 22:54:50 -0700
+
+synapse-tools (0.1.1) lucid; urgency=low
+
+  * Test fix.
+
+ -- John Billings <billings@yelp.com>  Wed, 06 Aug 2014 22:45:03 -0700
+
+synapse-tools (0.1.0) lucid; urgency=low
+
+  * Mesos integration.
+
+ -- John Billings <billings@yelp.com>  Mon, 04 Aug 2014 15:55:34 -0700
+
+synapse-tools (0.0.1) lucid; urgency=low
+
+  * Initial release.
+
+ -- John Billings <billings@yelp.com>  Fri, 20 June 2014 15:17:00 -0700

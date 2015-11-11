@@ -1,0 +1,8 @@
+---
+runs_on:
+ - host1-dev.example.com
+ - host2-dev.example.com
+ - host1-prod.example.com
+ - host2-prod.example.com
+ - host3-prod.example.com
+deployed_to: []

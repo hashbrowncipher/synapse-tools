@@ -1,0 +1,2 @@
+http_headers_to_copy:
+    - X-Mode
