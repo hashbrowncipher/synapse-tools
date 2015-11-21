@@ -1,0 +1,32 @@
+FROM docker-dev.yelpcorp.com/lucid_yelp:latest
+MAINTAINER John Billings <billings@yelp.com>
+
+RUN apt-get update && apt-get -y install  \
+	libcurl3 \
+	iptables \
+	haproxy-synapse \
+	python-setuptools \
+	python-pytest \
+	python-pycurl \
+	python-kazoo \
+	python-zope.interface \
+	rbenv \
+	rbenv-ruby-1.9.3-p448 \
+	python2.7 \
+	synapse
+
+ADD synapse.conf /etc/init/synapse.conf
+ADD synapse.conf.json /etc/synapse/synapse.conf.json
+ADD synapse-tools.conf.json /etc/synapse/synapse-tools.conf.json
+ADD yelpsoa-configs /nail/etc/services
+ADD zookeeper_discovery /nail/etc/zookeeper_discovery
+ADD habitat /nail/etc/habitat
+ADD ecosystem /nail/etc/ecosystem
+ADD region /nail/etc/region
+ADD itest.py /itest.py
+
+# configure_synapse tries to restart synapse.
+# make it think it succeeded.
+RUN ln -sf /bin/true /usr/sbin/service
+
+CMD py.test /itest.py
