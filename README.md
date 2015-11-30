@@ -13,7 +13,7 @@ Creates a Synapse configuration and restarts Synapse when the config changes.
 haproxy_synapse_reaper
 ----------------------
 
-Kills old HAProxy processes that are handling long-lived connections.
+Kills old [HAProxy](http://www.haproxy.org) processes that are handling long-lived connections.
 When HAProxy is reloaded, the old process sticks around until all its connections terminate.
 Some protocols have connections that last a long time or indefinitely, leading to a buildup of HAProxy processes.
 This script cleans those up.
