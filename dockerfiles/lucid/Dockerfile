@@ -4,7 +4,7 @@ MAINTAINER John Billings <billings@yelp.com>
 RUN apt-get update
 
 RUN apt-get -y install dpkg-dev python-tox python-setuptools
-RUN apt-get -y install python2.7-dev debhelper libyaml-0-2 libcurl4-openssl-dev
+RUN apt-get -y install python2.7-dev debhelper libyaml-dev libcurl4-openssl-dev
 
 # Make sure we get a package suitable for building this package correctly.
 # Per dnephin we need https://github.com/spotify/dh-virtualenv/pull/20

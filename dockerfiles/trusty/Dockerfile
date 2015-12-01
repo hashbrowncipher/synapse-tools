@@ -5,7 +5,7 @@ RUN rm -f /etc/apt/sources.list.d/proposed.list
 RUN apt-get update && apt-get -y install \
 	debhelper \
 	dpkg-dev \
-	libyaml-0-2 \
+	libyaml-dev \
 	libcurl4-openssl-dev \
 	python-dev \
 	python-tox \
