@@ -1,3 +1,9 @@
+synapse-tools (0.9.0) lucid; urgency=low
+
+  * De-Yelpify itest_trusty build process, use new environment_tools
+
+ -- Evan Krall <krall@yelp.com>  Fri, 04 Dec 2015 17:28:49 -0800
+
 synapse-tools (0.8.15) lucid; urgency=low
 
   * Sleep a little at the end of a restart before unplugging
