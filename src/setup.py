@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='synapse-tools',
-    version='0.8.15',
+    version='0.9.0',
     provides=['synapse_tools'],
     author='John Billings',
     author_email='billings@yelp.com',
