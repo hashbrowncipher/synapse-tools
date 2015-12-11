@@ -4,4 +4,4 @@ plumbum==1.6.0
 psutil==2.1.1
 PyYAML==3.11
 pyroute2==0.3.4
-paasta-tools==0.14.1
+paasta-tools==0.16.10
