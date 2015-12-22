@@ -1,3 +1,21 @@
+synapse-tools (0.9.1) lucid; urgency=low
+
+  * Bump paasta-tools
+
+ -- Evan Krall <krall@yelp.com>  Fri, 11 Dec 2015 12:38:51 -0800
+
+synapse-tools (0.9.0-1) lucid; urgency=low
+
+  * Python package number bump.
+
+ -- Evan Krall <krall@yelp.com>  Wed, 09 Dec 2015 11:48:38 -0800
+
+synapse-tools (0.9.0) lucid; urgency=low
+
+  * De-Yelpify itest_trusty build process, use new environment_tools
+
+ -- Evan Krall <krall@yelp.com>  Fri, 04 Dec 2015 17:28:49 -0800
+
 synapse-tools (0.8.15) lucid; urgency=low
 
   * Sleep a little at the end of a restart before unplugging

@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='synapse-tools',
-    version='0.8.15',
+    version='0.9.1',
     provides=['synapse_tools'],
     author='John Billings',
     author_email='billings@yelp.com',
@@ -22,7 +22,7 @@ setup(
         'psutil>=2.1.1,<2.2.0',
         'PyYAML>=3.11,<4.0.0',
         'pyroute2>=0.3.4,<0.4.0',
-        'paasta-tools==0.14.1',
+        'paasta-tools==0.16.10',
     ],
     entry_points={
         'console_scripts': [
