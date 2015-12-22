@@ -24,22 +24,6 @@ SYNAPSE_RESTART_COMMAND = ['service', 'synapse', 'restart']
 
 ZOOKEEPER_TOPOLOGY_PATH = '/nail/etc/zookeeper_discovery/infrastructure/local.yaml'
 
-HAPROXY_PATH = '/usr/bin/haproxy-synapse'
-HAPROXY_CONFIG_PATH = '/var/run/synapse/haproxy.cfg'
-HAPROXY_SOCKET_FILE_PATH = '/var/run/synapse/haproxy.sock'
-HAPROXY_PID_FILE_PATH = '/var/run/synapse/haproxy.pid'
-FILE_OUTPUT_PATH = '/var/run/synapse/services'
-
-# Command used to start/reload haproxy.   Note that we touch the pid file first
-# in case it doesn't exist;  otherwise the reload will fail.
-HAPROXY_RELOAD_CMD = 'touch %s && PID=$(cat %s) && %s -f %s -p %s -sf $PID' % (
-    HAPROXY_PID_FILE_PATH, HAPROXY_PID_FILE_PATH, HAPROXY_PATH,
-    HAPROXY_CONFIG_PATH, HAPROXY_PID_FILE_PATH)
-# Hack to fix SRV-2141 and OPS-8144 until we can get a proper solution
-HAPROXY_RELOAD_WITH_SLEEP = '%s && sleep 0.010' % (HAPROXY_RELOAD_CMD)
-HAPROXY_PROTECT_CMD = "sudo /usr/bin/synapse_qdisc_tool protect bash -c '%s'"
-HAPROXY_PROTECTED_RELOAD_CMD = HAPROXY_PROTECT_CMD % HAPROXY_RELOAD_WITH_SLEEP
-
 # Global maximum number of connections.
 MAXIMUM_CONNECTIONS = 10000
 
@@ -66,7 +50,8 @@ def generate_base_config(synapse_tools_config):
             'restart_jitter': 0.1,
             'state_file_path': '/var/run/synapse/state.json',
             'state_file_ttl': 30 * 60,
-            'reload_command': HAPROXY_PROTECTED_RELOAD_CMD,
+            'reload_command': ('sudo /usr/bin/synapse_qdisc_tool protect ' +
+              '/usr/bin/start_haproxy-synapse'),
             'socket_file_path': HAPROXY_SOCKET_FILE_PATH,
             'config_file_path': HAPROXY_CONFIG_PATH,
             'do_writes': True,

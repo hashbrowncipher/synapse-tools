@@ -31,4 +31,7 @@ setup(
             'synapse_qdisc_tool=synapse_tools.haproxy.qdisc_tool:main',
         ],
     },
+    data_files=[
+      ('/usr/bin', ['start-haproxy-synapse']),
+    ],
 )
