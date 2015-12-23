@@ -10,10 +10,10 @@ a long time to exit.  This script bounds the length of time that a haproxy
 instance can spend in the alumnus state by killing such processes after a
 specified period of time.
 
-How do we know how long a process has spent in the alumnus state?  The first
-time we see a non-main haproxy instance, we create an entry for it in the
-specified state directory.  Once an entry reaches the specified 'reap age',
-the associated haproxy instance is killed.
+In the haproxy-synapse startup script, after the new haproxy has started up, it
+records the PID of alumnus haproxy by touching a file in state_dir named after
+the PID.  When that file reaches a certain age (measured by mtime), it becomes
+eligible for reaping by this script.
 
 See SRV-1404 for more background info.
 """

@@ -31,7 +31,7 @@ def test_parse_args_reap_age():
 @mock.patch('synapse_tools.haproxy_synapse_reaper.time.time')
 @mock.patch('synapse_tools.haproxy_synapse_reaper.os.path.getmtime')
 @mock.patch('synapse_tools.haproxy_synapse_reaper.os.listdir')
-def test_kill_alumni_if_too_old(mock_listdir, mock_getmtime, mock_time):
+def test_issue_warrant_if_too_old(mock_listdir, mock_getmtime, mock_time):
     mock_time.return_value = 3601
     mock_listdir.return_value = ['45', '43', '42']
     mock_getmtime.side_effect = [1, 0, 1]
@@ -45,7 +45,7 @@ def test_kill_alumni_if_too_old(mock_listdir, mock_getmtime, mock_time):
 @mock.patch('synapse_tools.haproxy_synapse_reaper.time.time')
 @mock.patch('synapse_tools.haproxy_synapse_reaper.os.path.getmtime')
 @mock.patch('synapse_tools.haproxy_synapse_reaper.os.listdir')
-def test_kill_alumni_if_too_many(mock_listdir, mock_getmtime, mock_time):
+def test_issue_warrant_if_too_many(mock_listdir, mock_getmtime, mock_time):
     mock_time.return_value = 5
     mock_listdir.return_value = ['45', '43', '42', '41']
     mock_getmtime.side_effect = [4, 3, 2, 1]
@@ -59,4 +59,15 @@ def test_kill_alumni_if_too_many(mock_listdir, mock_getmtime, mock_time):
         (41, 4, 3),
     ]
 
+@mock.patch.object(haproxy_synapse_reaper.psutil.Process, 'name')
+@mock.patch.object(haproxy_synapse_reaper.psutil.Process, 'kill')
+@mock.patch('synapse_tools.haproxy_synapse_reaper.os.remove')
+def test_execute_alumni(mock_remove, mock_kill, mock_name):
+    mock_name.side_effect = ['haproxy-synapse', 'mysqld']
+    haproxy_synapse_reaper.execute_alumni('/state_dir', [(1, 0, 0), (2, 0, 1)])
 
+    assert mock_remove.mock_calls == [
+        mock.call('/state_dir/1'),
+        mock.call('/state_dir/2')
+    ]
+    assert mock_kill.call_count == 1
