@@ -19,9 +19,9 @@ See SRV-1404 for more background info.
 """
 
 
+from bisect import bisect
 import errno
 import logging
-import operator
 import os
 import time
 
@@ -29,15 +29,11 @@ import argparse
 import psutil
 
 
-DEFAULT_USERNAME = 'nobody'
-
-DEFAULT_STATE_DIR = '/var/run/synapse_alumni'
+DEFAULT_STATE_DIR = '/var/run/synapse/alumni'
 
 DEFAULT_REAP_AGE_S = 60 * 60
 
 DEFAULT_MAX_PROCS = 10
-
-HAPROXY_SYNAPSE_PIDFILE = '/var/run/synapse/haproxy.pid'
 
 LOG_FORMAT = '%(levelname)s %(message)s'
 
@@ -51,81 +47,46 @@ def parse_args():
     parser.add_argument('-r', '--reap-age', type=int, default=DEFAULT_REAP_AGE_S,
                         help='Reap age (default: %(default)s).')
     parser.add_argument('-p', '--max-procs', type=int, default=DEFAULT_MAX_PROCS,
-                        help='Maximum processes (default: %(default)s).')
-    parser.add_argument('-u', '--username', default=DEFAULT_USERNAME,
-                        help='Username that haproxy-synapse runs under (default: %(default)s).')
+                        help='Maximum processes to leave alive (default: %(default)s).')
     return parser.parse_args()
 
 
-def get_main_pid():
-    with open(HAPROXY_SYNAPSE_PIDFILE) as fh:
-        return int(fh.readline().strip())
-
-
-def get_alumni(username):
-    main_pid = get_main_pid()
-
-    for proc in psutil.process_iter():
-        if proc.name() != 'haproxy-synapse':
-            continue
-
-        if proc.username() != username:
-            continue
-
-        if proc.pid == main_pid:
-            continue
-
-        yield proc
-
-
-def kill_alumni(alumni, state_dir, reap_age, max_procs):
+def get_death_warrants(state_dir, reap_age, max_procs):
+    now = time.time()
     reap_count = 0
 
-    # Sort by oldest process creation time (= youngest) first
-    alumni = sorted(
-        alumni,
-        key=operator.methodcaller('create_time'),
-        reverse=True)
+    age = lambda x: now - os.path.getmtime(os.path.join(state_dir, x))
+    pidfile_ages = sorted((age(i), int(i)) for i in os.listdir(state_dir))
 
-    for index, proc in enumerate(alumni):
-        pidfile = os.path.join(state_dir, str(proc.pid))
+    # Don't traverse beyond the end of the list
+    hi = min(len(pidfile_ages), max_procs)
+    cut = bisect(pidfile_ages, (reap_age, ''), hi=hi)
 
-        # Create pidfile if necessary
-        if not os.path.exists(pidfile):
-            log.info('Creating pidfile for new alumnus: %d', proc.pid)
-            open(pidfile, 'w').close()
+    # If you are in pidfile_ages[0:cut], congrats: you made the cut.
+    # If you are in pidfile_ages[cut:], you're getting killed. Apologies.
 
-        age = time.time() - os.path.getctime(pidfile)
-        if age < reap_age and index < max_procs:
-            continue
+    return [(pid, age, cut + index) for index, (age, pid) in
+            enumerate(pidfile_ages[cut:])]
 
-        # Teletubby bye bye
-        log.info('Reaping process %d with age %ds and index %d' %
-                 (proc.pid, age, index))
+
+def execute_alumni(state_dir, death_warrants):
+    reap_count = 0
+
+    for pid, age, index in death_warrants:
         try:
-            proc.kill()
-            reap_count += 1
+            proc = psutil.Process(pid)
+            if proc.name() == 'haproxy-synapse':
+                log.info('Reaping process %d with age %ds and index %d' %
+                         (pid, age, index))
+
+                proc.kill()
+                reap_count += 1
         except psutil.NoSuchProcess:
-            log.warn('Process %d has disappeared' % proc.pid)
+            log.warn('Process %d has disappeared' % pid)
+
+        os.remove(os.path.join(state_dir, str(pid)))
 
     return reap_count
-
-
-def remove_stale_alumni_pidfiles(alumni, state_dir):
-    alumni_pids = [proc.pid for proc in alumni]
-
-    for pidfile in os.listdir(state_dir):
-        try:
-            pid = int(pidfile)
-        except ValueError:
-            log.warn('Ignoring invalid filename: %s' % pidfile)
-            continue
-
-        if pid in alumni_pids:
-            continue
-
-        log.info('Removing stale pidfile for %d', pid)
-        os.remove(os.path.join(state_dir, pidfile))
 
 
 def ensure_path_exists(path):
@@ -141,10 +102,8 @@ def main():
 
     args = parse_args()
     ensure_path_exists(args.state_dir)
-    alumni = list(get_alumni(args.username))
-    reap_count = kill_alumni(
-        alumni, args.state_dir, args.reap_age, args.max_procs)
-    remove_stale_alumni_pidfiles(alumni, args.state_dir)
+    warrants = get_death_warrants(args.state_dir, args.reap_age, args.max_procs)
+    reap_count = execute_alumni(args.state_dir, warrants)
 
     log.info('Reaped %d processes' % reap_count)
 

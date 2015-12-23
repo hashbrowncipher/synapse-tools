@@ -6,11 +6,19 @@ set -u
 PIDFILE="/var/run/synapse/haproxy.pid"
 HAPROXY_PATH="/usr/bin/haproxy-synapse"
 HAPROXY_CONFIG_PATH="/var/run/synapse/haproxy.cfg"
+ALUMNI_PATH="/var/run/synapse/alumni"
+
+mkdir -p "${ALUMNI_PATH}"
 
 # Touch the pid file first in case it doesn't exist; otherwise the reload
 # will fail.
 touch "${PIDFILE}"
-PID=$(cat "${PIDFILE}")
-"${HAPROXY_PATH}" -f "${HAPROXY_CONFIG_PATH}" -p "${PIDFILE}" -sf $PID
+
+PID=($(cat "${PIDFILE}"))
+"${HAPROXY_PATH}" -f "${HAPROXY_CONFIG_PATH}" -p "${PIDFILE}" -sf "${PID[@]}"
+
+set +e
+mkdir -p "${ALUMNI_PATH}"
+touch "${PID[@]}"
 # Hack to fix SRV-2141 and OPS-8144 until we can get a proper solution
 sleep 0.010
