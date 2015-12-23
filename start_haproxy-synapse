@@ -18,7 +18,6 @@ PID=($(cat "${PIDFILE}"))
 "${HAPROXY_PATH}" -f "${HAPROXY_CONFIG_PATH}" -p "${PIDFILE}" -sf "${PID[@]}"
 
 set +e
-cd "${ALUMNI_PATH}"
-touch "${PID[@]}"
+cd "${ALUMNI_PATH}" && touch "${PID[@]}"
 # Hack to fix SRV-2141 and OPS-8144 until we can get a proper solution
 sleep 0.010
